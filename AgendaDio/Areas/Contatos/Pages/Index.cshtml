@@ -1,0 +1,62 @@
+﻿@page
+@model AgendaDio.Areas.Contatos.Pages.IndexModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Lista de Contatos";
+}
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Meus contatos</h2>
+        <a asp-area="Contatos" asp-page="Create" class="btn btn-info">
+            <i class="fas fa-plus"></i>&nbsp; Novo
+        </a>
+    </div>
+</div>
+
+
+<div class="row row-cols-md-3 g-4">
+    @if (!Model.Contatos.Any())
+    {
+        <div>
+            <h3 class="text-warning">Sem contatos.</h3>
+        </div>
+    }
+    else
+    {
+        foreach (var contato in Model.Contatos)
+        {
+            <div class="col">
+                <div class="card">
+                    <img src="@contato.FotoUrl" class="card-img-top" alt="@contato.Nome" />
+                    <div class="card-body">
+                        <h5 class="card-title">@contato.Nome </h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <label class="label-weight-bold">Email: @contato.Email</label>
+                                <a onclick="" class="btn btn-success btn-sm"><i class="fas fa-envelope"></i></a>
+                            </li>
+                            <li class="list-group-item">
+                                <label class="label-weight-bold">Telefone: @contato.Telefone</label>
+                                <a onclick="" class="btn btn-light"><i class="fas fa-phone-alt"></i></a>
+                            </li>
+                            <li class="list-group-item">
+                                <label class="label-weight-bold">Nascimento: @contato.Nascimento.ToString("dd/MM/yyyy")</label>
+                            </li>
+                        </ul>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-success" title="Adicionar aos favoritos"><i class="far fa-heart"></i></button>
+                            <a class="btn btn-warning" title="Editar" asp-area="Contatos" asp-page="Create" asp-route-id=""><i class="far fa-edit"></i></a>
+                            <button type="button" class="btn btn-danger" title="Excluir" onclick="apagarContato('@contato.Id')"><i class="far fa-trash-alt"></i></button>
+                            <button type="button" class="btn btn-primary" title="Detalhes"><i class="fas fa-info"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+</div>
+@section Scripts{ 
+    <partial name="_Modal" />
+    <script src="~/js/contato.js"></script>
+}
