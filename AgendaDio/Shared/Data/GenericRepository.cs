@@ -50,16 +50,17 @@ namespace AgendaDio.Shared.Data
                 (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 query = query.Include(includeProperty);
 
+            if (orderBy != null)
+                query = orderBy(query);
+            
+
             if (skip != null)
                 query = query.Skip(skip.Value);
 
             if (take != null)
-                query.Take(take.Value);
+                query = query.Take(take.Value);
 
-            if (orderBy != null)
-                return orderBy(query);
-            else
-                return query;
+            return query;
         }
 
         public async ValueTask<TEntity> GetByKeysAsync(CancellationToken cancellationToken, params object[] keys)
