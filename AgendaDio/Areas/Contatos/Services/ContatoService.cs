@@ -45,7 +45,7 @@ namespace AgendaDio.Areas.Contatos.Services
 
         public async Task<IEnumerable<Contato>> ObterTodos(CancellationToken cancellationToken)
         {
-            return await _contatoRepository.GetAllAsync(cancellationToken: cancellationToken,
+            return await _contatoRepository.GetAllAsync(orderBy: o=> o.OrderBy(x=> x.Nome),take:2, skip:1, cancellationToken: cancellationToken,
                 noTracking: true);
         }
     }
