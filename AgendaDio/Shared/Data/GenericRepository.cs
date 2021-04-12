@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AgendaDio.Shared.Data
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IAsyncDisposable where TEntity : class
+    public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity>, IAsyncDisposable where TEntity : class
     {
         private readonly DbContext _dbContext;
         private readonly DbSet<TEntity> _dbSet;
