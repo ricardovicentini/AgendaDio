@@ -2,6 +2,7 @@
 using AgendaDio.Areas.Contatos.Repository;
 using AgendaDio.Shared.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,16 +71,23 @@ namespace AgendaDio.Areas.Contatos.Services
             return await _genericRepository.CommitAsync(cancellationToken).ConfigureAwait(false);
         }
 
+        public async Task<int> ContarCotatos(CancellationToken cancellationToken)
+        {
+            return await _genericRepository.GetAll().CountAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         public async Task<Contato> ObterPorId(Guid id, CancellationToken cancellationToken)
         {
             return await _genericRepository.GetByKeysAsync(cancellationToken, id).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<Contato>> ObterTodos(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Contato>> ObterTodos(int paginaAtual, int qtdPorPagina, CancellationToken cancellationToken)
         {
             return await _genericRepository.GetAllAsync(
                 orderBy: o => o.OrderByDescending(x => x.Favorito)
                                 .ThenBy(x => x.Nome),
+                skip: (paginaAtual-1) * qtdPorPagina,
+                take: qtdPorPagina,
                 noTracking: true,
                 cancellationToken: cancellationToken
                 );

@@ -13,7 +13,42 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12 offset-4">
+        <div clas="btn-group" role="group">
+            @{
+                var minPagina = Model.PaginaAtual - 5 <= 1 ? 1 : Model.PaginaAtual - 5;
+                var maxPagina = minPagina + 9 >= Model.TotalPaginas ? Model.TotalPaginas : minPagina + 9;
+                if (minPagina > 1)
+                {
+                    <a class="btn btn-light" title="anterior" asp-area="Contatos" asp-route-paginaAtual="@(minPagina - 1)" asp-page="Index">
+                        <i class="fas fa-backward"></i>
 
+                    </a>
+                }
+                for (int i = minPagina; i <= maxPagina; i++)
+                {
+                    if (Model.PaginaAtual == i)
+                    {
+                        <a class="btn btn-info active" title="pagina: @i" asp-area="Contatos" asp-route-paginaAtual="@i" asp-page="Index">@i</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-light" title="pagina: @i" asp-area="Contatos" asp-route-paginaAtual="@i" asp-page="Index">@i</a>
+                    }
+
+                }
+                if (maxPagina < Model.TotalPaginas)
+                {
+                    <a class="btn btn-light" title="avançar" asp-area="Contatos" asp-route-paginaAtual="@(maxPagina + 1)" asp-page="Index">
+                        <i class="fas fa-forward"></i>
+                    </a>
+                }
+            }
+
+        </div>
+    </div>
+</div>
 <div class="row row-cols-md-3 g-4">
     @if (!Model.Contatos.Any())
     {
