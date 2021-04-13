@@ -44,7 +44,24 @@
                             </li>
                         </ul>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" title="Adicionar aos favoritos"><i class="far fa-heart"></i></button>
+                            <form method="post" enctype="multipart/form-data">
+                                @if (!contato.Favorito)
+                                {
+                                    <button type="submit" class="btn btn-success" title="Adicionar aos favoritos"
+                                            asp-page-handler="Favorite"
+                                            asp-route-id="@contato.Id">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-success" title="Remover dos favoritos"
+                                            asp-page-handler="Favorite"
+                                            asp-route-id="@contato.Id">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                }
+                            </form>
                             <a class="btn btn-warning" title="Editar" asp-area="Contatos" asp-page="Create" asp-route-id="@contato.Id"><i class="far fa-edit"></i></a>
                             <button type="button" class="btn btn-danger" title="Excluir" onclick="apagarContato('@contato.Id')"><i class="far fa-trash-alt"></i></button>
                             <button type="button" class="btn btn-primary" title="Detalhes"><i class="fas fa-info"></i></button>

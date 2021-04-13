@@ -24,5 +24,15 @@ namespace AgendaDio.Areas.Contatos.Pages
             Contatos =  await _contatoService.ObterTodos(cancellationToken);
             
         }
+
+        public async Task<IActionResult> OnPostFavoriteAsync([FromQuery] Guid id, CancellationToken cancellationToken)
+        {
+            var result = await _contatoService.AlternarFavorito(id, cancellationToken).ConfigureAwait(false);
+            if (!result)
+            {
+                return RedirectToPage("/Erro");
+            }
+            return RedirectToPage("Index");
+        }
     }
 }

@@ -55,6 +55,14 @@ namespace AgendaDio.Areas.Contatos.Services
             return await _genericRepository.CommitAsync(cancellationToken).ConfigureAwait(false);
         }
 
+        public async Task<bool> AlternarFavorito(Guid id, CancellationToken cancellationToken)
+        {
+            var contato = await _genericRepository.GetByKeysAsync(cancellationToken, id).ConfigureAwait(false);
+            contato.Favorito = !contato.Favorito;
+            _genericRepository.Update(contato);
+            return await _genericRepository.CommitAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         public async Task<bool> ApagarContato(Guid id, CancellationToken cancellationToken)
         {
             var contato = await _genericRepository.GetByKeysAsync(cancellationToken, id).ConfigureAwait(false);
@@ -69,8 +77,12 @@ namespace AgendaDio.Areas.Contatos.Services
 
         public async Task<IEnumerable<Contato>> ObterTodos(CancellationToken cancellationToken)
         {
-            return await _genericRepository.GetAllAsync( cancellationToken: cancellationToken,
-                noTracking: true);
+            return await _genericRepository.GetAllAsync(
+                orderBy: o => o.OrderByDescending(x => x.Favorito)
+                                .ThenBy(x => x.Nome),
+                noTracking: true,
+                cancellationToken: cancellationToken
+                );
         }
 
         // métodos privados
