@@ -17,14 +17,19 @@ namespace AgendaDio.Areas.Contatos.Pages
         private readonly IContatoService _contatoService;
 
         [BindProperty]
-        public Contato Contato { get; set; }
+        public Contato Contato { get; set; } = new Contato();
 
         public Index1Model(IContatoService contatoService)
         {
             _contatoService = contatoService;
         }
-        public void OnGet()
+        public async Task OnGetAsync([FromRoute] Guid? id, CancellationToken cancellationToken)
         {
+            if (id.HasValue)
+            {
+                Contato = await _contatoService.ObterPorId(id.Value, cancellationToken).ConfigureAwait(false);
+            }
+            
         }
 
         public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
@@ -41,6 +46,22 @@ namespace AgendaDio.Areas.Contatos.Pages
             }
 
             return RedirectToPage("Index"); 
+        }
+
+        public async Task<IActionResult> OnPostUpdateAsync(CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var result = await _contatoService.Alterar(Contato, cancellationToken).ConfigureAwait(false);
+            if (!result)
+            {
+                return RedirectToPage("/Error");
+            }
+
+            return RedirectToPage("Index");
         }
     }
 }

@@ -32,6 +32,7 @@ namespace AgendaDio
             services.AddDbContextPool<DbContext, AgendaDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("AgendaDB")));
             services.AddScoped<IContatoService, ContatoService>();
             services.AddScoped<IGenericRepository<Contato>, ContatoRepository>();
+            services.AddScoped<IContatoRepository, ContatoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

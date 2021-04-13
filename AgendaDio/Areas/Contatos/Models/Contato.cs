@@ -31,6 +31,7 @@ namespace AgendaDio.Areas.Contatos.Models
         [DataType(DataType.Date)]
         public DateTime Nascimento { get; set; }
 
+        public DateTime DataModificacao { get; set; }
 
 
         public string FotoUrl { get; set; }

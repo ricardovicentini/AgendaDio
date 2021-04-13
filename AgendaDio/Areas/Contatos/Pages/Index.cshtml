@@ -45,7 +45,7 @@
                         </ul>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-success" title="Adicionar aos favoritos"><i class="far fa-heart"></i></button>
-                            <a class="btn btn-warning" title="Editar" asp-area="Contatos" asp-page="Create" asp-route-id=""><i class="far fa-edit"></i></a>
+                            <a class="btn btn-warning" title="Editar" asp-area="Contatos" asp-page="Create" asp-route-id="@contato.Id"><i class="far fa-edit"></i></a>
                             <button type="button" class="btn btn-danger" title="Excluir" onclick="apagarContato('@contato.Id')"><i class="far fa-trash-alt"></i></button>
                             <button type="button" class="btn btn-primary" title="Detalhes"><i class="fas fa-info"></i></button>
                         </div>

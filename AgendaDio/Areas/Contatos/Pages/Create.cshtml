@@ -1,13 +1,21 @@
-﻿@page
+﻿@page "{id:Guid?}"
 @model AgendaDio.Areas.Contatos.Pages.Index1Model
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Novo/Editar Contato";
 }
 <div class="row">
-    <h2 class="text-info">Novo Contato</h2>
+    @if (Model.Contato.Id == Guid.Empty)
+    {
+        <h2 class="text-info">Novo Contato</h2>
+    }
+    else
+    {
+        <h2 class="text-info">Alterar Contato Id: @Model.Contato.Id</h2>
+    }
 </div>
 <form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Contato.Id" />
     <div class="border backgroundWhite">
         <div class="form-group row mb-3">
             <div class="col-2">
@@ -57,7 +65,14 @@
             <div class="col-5 offset-2">
                 <div class="row">
                     <div class="col-6">
-                        <input type="submit" class="btn btn-success form-control" value="Salvar" />
+                        @if (Model.Contato.Id == Guid.Empty)
+                        {
+                            <input type="submit" class="btn btn-success form-control" value="Salvar" />
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-warning form-control" asp-page-handler="Update" value="Alterar" />
+                        }
                     </div>
                     <div class="col-6">
                         <a asp-page="Index" class="btn btn-danger form-control">Cancelar</a>
